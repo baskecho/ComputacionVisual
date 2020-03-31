@@ -1,6 +1,6 @@
 function setup() 
 {
-    var myCanvas = createCanvas(250, 250);
+    var myCanvas = createCanvas(500, 350);
     myCanvas.parent('ilusion-optica-001');
     strokeWeight(3);
     smooth();
