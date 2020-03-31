@@ -32,7 +32,7 @@ var ancho = 0;
 function setup() 
 {
 
-    var myCanvas = createCanvas(1000, 6000);
+    var myCanvas = createCanvas(1000, 4000);
     myCanvas.parent('ejemplos-processing');
     
     leftBuffer = createGraphics(350, 350);
