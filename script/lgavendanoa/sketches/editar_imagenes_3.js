@@ -147,6 +147,63 @@ function regresar()
     img_02.updatePixels();
 }
 
+function filtrosBlancoNegro(gray)
+{
+    let lightness = 210;
+
+    img_02.loadPixels();
+   
+	for (let y = 0; y < img_02.height; y++) {
+		for (let x = 0; x < img_02.width; x++){ 
+            let index = (x+y*img_02.width)*4; // Posicion del pixel
+            
+            let r=img_02.pixels[index+0]; // Componente Red
+            let g=img_02.pixels[index+1]; // Componente Green
+            let b=img_02.pixels[index+2]; // Componente Blue
+            let a=img_02.pixels[index+3]; // Componente Alpha
+			
+			if (gray===1){
+				let I=(r+g+b)/3; // Promedio de los tres componentes
+				lightness = I;
+			} else if (gray===2){
+				let V= max(r,g,b); // Componente mas grande de un color
+				lightness = V;
+			} else if (gray===3){
+				let L=(max(r,g,b)+min(r,g,b))/2; // Promedio entre el componente mas grande y el mas pequeño
+				lightness = L;
+			} else if (gray===4){ // Promedio ponderado de RGB con corrección gamma (Luma)
+				let Y601= 0.2989*r + 0.5870*g + 0.1140*b; // SDTV
+				lightness = Y601;
+			} else if (gray===5){ 
+				let Y240= 0.212*r + 0.701*g + 0.087*b; // Adobe
+				lightness = Y240;
+			} else if (gray===6){ 
+				let Y709= 0.2126*r + 0.7152*g + 0.0722*b; // HDTV
+				lightness = Y709;
+			} else if (gray===7){ 
+				let Y2020= 0.2627*r + 0.6780*g + 0.0593*b; // UHDTV,HDR
+				lightness = Y2020;
+			} 
+			
+			            
+			img_02.pixels[index+0]=lightness;
+			img_02.pixels[index+1]=lightness;
+			img_02.pixels[index+2]=lightness;
+			img_02.pixels[index+3]=a;
+			
+			if (gray===0){ // Imagen original
+				pixels[index+0]=r;
+				pixels[index+1]=g;
+				pixels[index+2]=b;
+				pixels[index+3]=a;
+			}
+		}
+	}
+	img_02.updatePixels();
+	//image(img, 12, 12, img.width *0.26, img.height *0.26);
+}
+
+
 function keyPressed() 
 {
     matrixsize = 3;
@@ -206,12 +263,30 @@ function keyPressed()
                 [ -4/256, -16/256, -24/256, -16/256, -4/256 ],
                 [ -1/256,  -4/256,  -6/256,  -4/256, -1/256 ] ];
         convolutions();
-    } else if (key == 'g'){
+    } else if (key == 'c'){
         complementary();
+    }else if (key == 'f'){
+        regresar();
+    }else if (key == 'q'){
+        regresar();
+        filtrosBlancoNegro(1);
+    }else if (key == 'w'){
+        regresar();
+        filtrosBlancoNegro(2);
+    }else if (key == 'e'){
+        regresar();
+        filtrosBlancoNegro(3);
     }else if (key == 'r'){
         regresar();
+        filtrosBlancoNegro(4);
+    }else if (key == 't'){
+        regresar();
+        filtrosBlancoNegro(5);
+    }else if (key == 'y'){
+        regresar();
+        filtrosBlancoNegro(6);
+    }else if (key == 'u'){
+        regresar();
+        filtrosBlancoNegro(7);
     }
-    
-
-    
 }
