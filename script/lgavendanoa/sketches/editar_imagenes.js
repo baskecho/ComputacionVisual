@@ -29,8 +29,6 @@ function draw() {
     drawImage_01();
     drawImage_02();
 
-    
-
     image(lienzo_01, 0, 0);
     image(lienzo_02, 562, 0);
 }
