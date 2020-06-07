@@ -1,54 +1,74 @@
-var w = 60;
-
-var lienzo_01;
-var lienzo_02;
-var img_01;
-var img_02;
-
-// It's possible to convolve the image with many different 
-// matrices to produce different effects. This is a high-pass 
-// filter; it accentuates the edges. 
+let angle = 0;
+let angle2 = 0;
+let img_01;
+let img_02;
 let matrixsize;
 var matrix;
-
+var w = 60;
+let linezo_01;
 
 function setup() { 
-	var myCanvas = createCanvas(500, 450);
-	 myCanvas.parent('editar-imagen-2');
-	background(0);
-	pixelDensity();
+	var myCanvas = createCanvas(1200, 500, WEBGL);
+	myCanvas.parent('escala_grices');
 
-	img_01 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
+    img_01 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
     img_02 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
 
-	lienzo_01 = createGraphics(512, 550);
-	lienzo_02 = createGraphics(512, 550);
+    lienzo_01 = createGraphics(512, 550, WEBGL);
+
 } 
 
 function draw() {
-    drawImage_01();
-    drawImage_02();
+    background(175);
+    noStroke();
+    texture(img_01);
 
-    image(lienzo_01, 0, 0);
-    image(lienzo_02, 562, 0);
-}
-// Dibuja la imagen de la Izquierda
-drawImage_01 = () => {
-	lienzo_01.image(img_01, 0, 0);
-    var title = "IMAGEN ORIGINAL";
-	
-	lienzo_01.textSize(14);
-	lienzo_01.textAlign(CENTER);
-    lienzo_01.text(title, 0, 20,lienzo_01.width); 
-}
-// Dibuja la imagen de la Derecha
-function drawImage_02() {
-    lienzo_02.image(img_02, 0, 0);
-	var title = "MATRIZ DE CONVOLUCION";
+    pointLight(255, 255, 255, 0, 0, 1250);
+    
 
-	lienzo_02.textSize(14);
-	lienzo_02.textAlign(CENTER);
-	lienzo_02.text(title, 0, 20,lienzo_02.width);
+    translate(-width/2 +350,0);
+    push();
+    rotateX(angle);
+    rotateY(angle*0.3);
+    rotateZ(angle*0.2);
+    box(200,200,200);
+    pop();
+    
+
+    translate(width/2 - 80 ,0);
+    push();
+    noStroke();
+    texture(img_02);
+    rotateX(angle2);
+    rotateY(angle2*0.3);
+    rotateZ(angle2*0.2);
+    box(200,200,200);
+    pop();
+
+
+    angle += 0.003;
+    angle2 += 0.003;
+}
+
+
+
+
+
+function draw02()
+{
+    background(175);
+    noStroke();
+
+    texture(img_01);
+
+    background(222,207,205);
+
+    translate(-250,0);
+    rotateX(angle2);
+    rotateY(angle2*0.3);
+    rotateZ(angle2*0.2);
+    box(200,200,200);
+    angle2 += 0.003;
 }
 
 function convolutions()
@@ -100,7 +120,6 @@ function convolutionAux(x, y, matrix, matrixsize, img){
 	// Return the resulting color
 	return color(rtotal, gtotal, btotal);
 }
-
 
 function complementary()
 {
@@ -289,4 +308,113 @@ function keyPressed()
         regresar();
         filtrosBlancoNegro(7);
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function drawLienzo01()
+{
+
+    background(222,207,205);
+    rectMode(CENTER);
+    fill(0,0,255);
+    translate(mouseX - width/2, mouseY-height/2);
+    rotateX(angle);
+    rotateY(angle*0.3);
+    rotateZ(angle*0.2);
+    box(100,50,70);
+    angle += 0.03;
+}
+
+function drawLienzo02()
+{
+    background(255);
+    rectMode(CENTER);
+    fill(98,223,235);
+    translate(mouseX - width/2, mouseY-height/2);
+    rotateX(angle);
+    rotateY(angle*0.3);
+    rotateZ(angle*0.2);
+    torus(100,50);
+    angle += 0.03;
+}
+
+function drawLienzo03()
+{
+    background(222,207,205);
+    rectMode(CENTER);
+    //fill(15,125,255);
+   // normalMaterial();
+    //noStroke();
+    
+    //ambientLight(0,0,255); // white light
+    pointLight(0, 0, 255,0 -930, 0);
+    pointLight(255, 0, 0, 0, 0, -930);
+    pointLight(0, 255, 0, 950, 0, 0);
+    ambientMaterial(255, 255, 255);
+
+    translate(mouseX - width/2, mouseY-height/2);
+    rotateX(angle);
+    rotateY(angle*0.3);
+    rotateZ(angle*0.2);
+    //cone(140, 170);
+    //torus(100,50);
+    sphere(100);
+    angle += 0.03;
+}
+
+function drawLienzo04()
+{
+    background(255);
+    rectMode(CENTER);
+    //fill(15,125,255);
+   // normalMaterial();
+    //noStroke();
+    
+    //ambientLight(0,0,255); // white light
+    pointLight(0, 0, 255,0 -930, 0);
+    pointLight(255, 0, 0, 0, 0, -930);
+    pointLight(0, 255, 0, 950, 0, 0);
+    ambientMaterial(255, 255, 255)
+
+    //noStroke();
+    translate(10, -750);
+    rotateX(angle);
+    rotateY(angle*0.3);
+    rotateZ(angle*0.2);
+    //cone(140, 170);
+    torus(100,50);
+    angle += 0.03;
 }
