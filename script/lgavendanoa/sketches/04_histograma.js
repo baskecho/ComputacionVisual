@@ -24,8 +24,6 @@ function setup() {
     myCanvas.parent('histograma');
     background(0);
 
-    //img_02.resize(widthI,heightI);
-    //img_01.resize(widthI,heightI);
 
     lienzo01 = createGraphics(widthI,heightI);
     lienzo02 = createGraphics(widthI,heightI);
@@ -38,25 +36,17 @@ function draw() {
 
     drawHis();
     drawLienzo01();
-    //drawLienzo02();
     image(lienzo01,0,0);
     image(lienzo02, widthI+20, 0);
 };
 
 function drawLienzo01(){
 
-    //img_02.filter(GRAY);
     lienzo01.image(img_02, 0, 0);
     
 
 };
-function drawLienzo02(){
 
-    //img.filter(GRAY);
-    lienzo02.image(img_02, 0, 0);
-    //lienzo02.image(img, 0, 0);
-
-};
 
 
 
@@ -91,16 +81,10 @@ function drawHis(){
     for (var i = 0; i < 2.5*img_02.width; i += 3) {
         var which = int(map(i, 0, 2.5*widthI, 0, 255));
         var y = int(map(hist[which], 0, histMax, img_02.height, img_02.height-500));
-
-
-        //console.log(`(${i},${img_02.height}) - (${i},${y})`);
-
         lienzo02.line(i, img_02.height, i, y);
 
-        //lienzo02.line(0,0,125,234);  
     }
 
-    //lienzo02.line(0,0,125,234); 
 
 }
 
