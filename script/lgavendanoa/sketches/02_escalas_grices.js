@@ -12,7 +12,9 @@ function setup() {
 	myCanvas.parent('escala_grices');
 
     img_01 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
+    //img_01 = loadImage('https://miro.medium.com/max/2000/1*E3DrG0S77WuiXaPYmXMn4Q.jpeg');
     img_02 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
+    //img_02 = loadImage('https://miro.medium.com/max/2000/1*E3DrG0S77WuiXaPYmXMn4Q.jpeg');
 
     lienzo_01 = createGraphics(512, 550, WEBGL);
 
@@ -126,7 +128,6 @@ function complementary()
     regresar();
     let img2 = createImage(512, 550);
 
-	//loadPixels();
 	img_02.loadPixels();
 
     for(var y = 0 ; y < img_02.height; y++)
