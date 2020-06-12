@@ -46,7 +46,7 @@ function draw(){
     else if( value === 'c'){
         complementary();
     }
-    else if(value === 'z'){
+    else if(value >= 10){
         convolutions();
     }
 }
@@ -187,7 +187,7 @@ function keyPressed()
         value = 2;
     }else if (key == 'e'){
         value = 3;
-    }else if (key == 'r'){
+    }else if (key == 'r'){q
         value = 4;
     }else if (key == 't'){
         value = 5;
@@ -198,46 +198,53 @@ function keyPressed()
     }else if (key == 'c'){
         value = 'c';
     } else if (key === '0') { // Identidad
-    matrix = [ [  0,  0,  0 ],
-               [  0,  1,  0 ],
-               [  0,  0,  0 ] ]; 
+        matrix = [ [  0,  0,  0 ],
+                [  0,  1,  0 ],
+                [  0,  0,  0 ] ]; 
+        value = 10;
         //convolutions();
-    } else if (key === 'z') { // Enfocar. Acentúa los bordes
+    } else if (key === '1') { // Enfocar. Acentúa los bordes
         matrix = [ [ -1, -1, -1 ],
                 [ -1,  9, -1 ],
                 [ -1, -1, -1 ] ]; 
-        value = 'z';
+        value = 11;
         //convolutions();
     } else if (key === '2') { // Repujado
         matrix = [ [ -2, -1,  0 ],
                 [ -1,  1,  1 ],
                 [  0,  1,  2 ] ]; 
         //convolutions();
+        value = 12;
     } else if (key === '3') { // Detección de bordes
         matrix = [ [  1,  0, -1 ],
                 [  0,  0,  0 ],
                 [ -1,  0,  1 ] ]; 
         //convolutions();
+        value = 13;
     } else if (key === '4') {
         matrix = [ [  0,  1,  0 ],
                 [  1, -4,  1 ],
                 [  0,  1,  0 ] ]; 
         //convolutions();
+        value = 14;
     } else if (key === '5') {
         matrix = [ [ -1, -1, -1 ],
                 [ -1,  8, -1 ],
                 [ -1, -1, -1 ] ]; 
         //convolutions();
+        value = 15;
     } else if (key === '6') { // Enfocar
         matrix = [ [  0, -1,  0 ],
                 [ -1,  5, -1 ],
                 [  0, -1,  0 ] ];
         //convolutions();
+        value = 16;
     } else if (key === '7') { // Desenfoque de cuadro (normalizado)
         matrix = [ [ 1/9, 1/9, 1/9 ],
                 [ 1/9, 1/9, 1/9 ],
                 [ 1/9, 1/9, 1/9 ] ]; 
         //convolutions();
+        value = 17;
     } else if (key === '8') { // Desenfoque gaussiano 5 × 5 (aproximación)
         matrixsize = 5;
         matrix = [ [ 1/256,  4/256,  6/256,  4/256, 1/256 ],
@@ -246,6 +253,7 @@ function keyPressed()
                 [ 4/256, 16/256, 24/256, 16/256, 4/256 ],
                 [ 1/256,  4/256,  6/256,  4/256, 1/256 ] ];
         //convolutions();
+        value = 18;
     } else if (key === '9') { // Máscara de desenfoque 5 × 5 (sin máscara de imagen)
         matrixsize = 5;
         matrix = [ [ -1/256,  -4/256,  -6/256,  -4/256, -1/256 ],
@@ -254,6 +262,7 @@ function keyPressed()
                 [ -4/256, -16/256, -24/256, -16/256, -4/256 ],
                 [ -1/256,  -4/256,  -6/256,  -4/256, -1/256 ] ];
         //convolutions();
+        value = 19;
     }
 }
 
