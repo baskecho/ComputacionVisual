@@ -18,15 +18,15 @@ function preload() {
 
 function setup() {
 
-    var myCanvas = createCanvas(1100, 700);
+    var myCanvas = createCanvas(1100, 550);
     myCanvas.parent('escala_grices_videos');    
-    background(255);
+    background(255);0
 }
 
 function draw(){
 
     image(img_01, 0, 30);
-    image(img_02, 500, 30);
+    image(img_02, 520, 30);
 
     if( value === 1){
         filtrosBlancoNegro(1);

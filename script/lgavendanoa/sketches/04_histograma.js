@@ -1,86 +1,107 @@
-var w = 60;
 
-var lienzo_01;
-var lienzo_02;
-var img_01;
-var img_02;
+let lienzo_01;
+var maxRange = 256
+var histogram = new Array(maxRange);
 
-// It's possible to convolve the image with many different 
-// matrices to produce different effects. This is a high-pass 
-// filter; it accentuates the edges. 
-let matrixsize;
-var matrix;
-let ascii=[];
+var lienzo01;
+var lienzo02;
 
+var heightI = 512;
+var widthI = 550;
 
+//Histograma
+var hist = new Array(256);
 
-// sampling resolution: colors will be sampled every n pixels 
-// to determine which character to display
-let resolution = 6;
-let repaint = 0;
-let intensity = 1;
+function preload() {
+ // img = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"); // Load the image
 
+    img_01 = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png");
+    img_02 = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png");
+}
 
+function setup() {
+    var myCanvas = createCanvas(widthI*2 + 20, heightI);
+    myCanvas.parent('histograma');
+    background(0);
 
-function setup() { 
-	var myCanvas = createCanvas(1074, 550);
-	myCanvas.parent('editar-imagen-2');
-	background(0);
-	pixelDensity();
+    //img_02.resize(widthI,heightI);
+    //img_01.resize(widthI,heightI);
 
-	img_01 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
-    img_02 = loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png');
+    lienzo01 = createGraphics(widthI,heightI);
+    lienzo02 = createGraphics(widthI,heightI);
 
-    fill(0);
-    noStroke();
-
-    let letters = "@&$o%#*+=-':. ";
-
-    for (let i = 0; i < 256; i++) {
-        let index = int(map(i, 0, 256, 0, letters.length));
-        ascii[i] = letters.charAt(index);
-    }
-
-    let mono = textFont("Georgia", resolution + 2);
-    textFont(mono);
-
-    lienzo_01 = createGraphics(512, 550);
-	lienzo_02 = createGraphics(512, 550);
-
-} 
+    calcHis();
+    
+}
 
 function draw() {
-    drawImage_01();
-    drawImage_02();
+
+    drawHis();
+    drawLienzo01();
+    //drawLienzo02();
+    image(lienzo01,0,0);
+    image(lienzo02, widthI+20, 0);
+};
+
+function drawLienzo01(){
+
+    //img_02.filter(GRAY);
+    lienzo01.image(img_02, 0, 0);
+    
+
+};
+function drawLienzo02(){
+
+    //img.filter(GRAY);
+    lienzo02.image(img_02, 0, 0);
+    //lienzo02.image(img, 0, 0);
+
+};
 
 
-    /*if (repaint < 1){
-        asciify();
-        repaint += 1;
-    }*/
 
 
-    image(lienzo_01, 0, 0);
-    image(lienzo_02, 562, 0);
 
-}
-// Dibuja la imagen de la Izquierda
-drawImage_01 = () => {
-	lienzo_01.image(img_01, 0, 0);
-    var title = "IMAGEN ORIGINAL";
-	
-	lienzo_01.textSize(14);
-	lienzo_01.textAlign(CENTER);
-    lienzo_01.text(title, 0, 20,lienzo_01.width); 
-}
-// Dibuja la imagen de la Derecha
-function drawImage_02() {
-    lienzo_02.image(img_02, 0, 0);
-	var title = "MATRIZ DE CONVOLUCION";
+//Calcula los valores del histograma.
+function calcHis(){
 
-	lienzo_02.textSize(14);
-	lienzo_02.textAlign(CENTER);
-	lienzo_02.text(title, 0, 20,lienzo_02.width);
+    //img.filter(GRAY);
+    image(img_02, 0, 0);
+    for (i = 0; i <= 256; i++) {
+        hist[i] = 0
+    }
+
+    // Calculate the histogram
+    for (var i = 0; i < img_02.width; i++) {
+    for (var j = 0; j < img_02.height; j++) {
+        var bright = int(brightness(get(i, j)));
+        hist[bright]++; 
+    }
+    }
+};
+
+//Dibuja los histogramas
+function drawHis(){
+
+    histMax = max(hist);
+    lienzo02.background(255);
+    lienzo02.stroke(0,0,255);
+    
+
+    for (var i = 0; i < 2.5*img_02.width; i += 3) {
+        var which = int(map(i, 0, 2.5*widthI, 0, 255));
+        var y = int(map(hist[which], 0, histMax, img_02.height, img_02.height-500));
+
+
+        //console.log(`(${i},${img_02.height}) - (${i},${y})`);
+
+        lienzo02.line(i, img_02.height, i, y);
+
+        //lienzo02.line(0,0,125,234);  
+    }
+
+    //lienzo02.line(0,0,125,234); 
+
 }
 
 function convolutions()
@@ -135,18 +156,16 @@ function convolutionAux(x, y, matrix, matrixsize, img){
 
 
 function complementary()
-{
+{	
     regresar();
-    let img2 = createImage(512, 550);
+    
+    img_02.loadPixels();
 
-	//loadPixels();
-	img_02.loadPixels();
-
-    for(var y = 0 ; y < img_02.height; y++)
+    for(var y = 0 ; y < heightI; y++)
     {
-        for(var x = 0; x < img_02.width; x++)
+        for(var x = 0; x < widthI; x++)
         {
-            let index = (x + y * img_02.width) * 4;
+            let index = (x + y * widthI) * 4;
 
             img_02.pixels[index + 0] = 255 - img_02.pixels[index + 0];
             img_02.pixels[index + 1] = 255 - img_02.pixels[index + 1];
@@ -158,33 +177,12 @@ function complementary()
     img_02.updatePixels();
 }
 
-function regresar()
-{
-    img_02.loadPixels();
-    img_01.loadPixels();
-
-    for(y = 0; y < img_02.height; y++ )
-    {
-        for(x = 0; x < img_02.width; x++)
-        {
-            let index = (y + x*img_02.width)*4;
-            img_02.pixels[index + 0] = img_01.pixels[index + 0];
-            img_02.pixels[index + 1] = img_01.pixels[index + 1];
-            img_02.pixels[index + 2] = img_01.pixels[index + 2];
-            img_02.pixels[index + 3] = img_01.pixels[index + 3];
-        }
-    }
-
-    img_01.updatePixels();
-    img_02.updatePixels();
-}
-
 function filtrosBlancoNegro(gray)
 {
     let lightness = 210;
 
     img_02.loadPixels();
-   
+
 	for (let y = 0; y < img_02.height; y++) {
 		for (let x = 0; x < img_02.width; x++){ 
             let index = (x+y*img_02.width)*4; // Posicion del pixel
@@ -217,7 +215,7 @@ function filtrosBlancoNegro(gray)
 				lightness = Y2020;
 			} 
 			
-			            
+	
 			img_02.pixels[index+0]=lightness;
 			img_02.pixels[index+1]=lightness;
 			img_02.pixels[index+2]=lightness;
@@ -234,7 +232,6 @@ function filtrosBlancoNegro(gray)
 	img_02.updatePixels();
 	//image(img, 12, 12, img.width *0.26, img.height *0.26);
 }
-
 
 function keyPressed() 
 {
@@ -321,35 +318,38 @@ function keyPressed()
         regresar();
         filtrosBlancoNegro(7);
     }
+
+    calcHis();
 }
 
-function asciify() {
-  // since the text is just black and white, converting the image
-  // to grayscale seems a little more accurate when calculating brightness
-  img.filter(GRAY);
-  img.loadPixels();
-  img2.loadPixels();
- 
-  // grab the color of every nth pixel in the image
-  // and replace it with the character of similar brightness
-  for (let y = 0; y < img.height; y += resolution) {
-    for (let x = 0; x < img.width; x += resolution) {
-      
-        let index = (x+y*width)*4; // Posicion del pixel
-        let r=img.pixels[index+0]; // Componente Red
-        let g=img.pixels[index+1]; // Componente Green
-        let b=img.pixels[index+2]; // Componente Blue
-        let a=img.pixels[index+3]; // Componente Alpha
-        // Componenetes sin modificaciones
-        let R=img2.pixels[index+0]; // Componente Red
-        let G=img2.pixels[index+1]; // Componente Green
-        let B=img2.pixels[index+2]; // Componente Blue
-        let A=img2.pixels[index+3]; // Componente Alpha
-    
-        asciiPaint(R,G,B,A,x,y); // Color de los caracteres
-      
-        text(ascii[int(brightness(color(r,g,b,a)))], x, y); // Dibuja los caracteres
+function regresar()
+{
+    img_02.loadPixels();
+    img_01.loadPixels();
+
+    for(y = 0; y < img_02.height; y++ )
+    {
+        for(x = 0; x < img_02.width; x++)
+        {
+            let index = (y + x*img_02.width)*4;
+            img_02.pixels[index + 0] = img_01.pixels[index + 0];
+            img_02.pixels[index + 1] = img_01.pixels[index + 1];
+            img_02.pixels[index + 2] = img_01.pixels[index + 2];
+            img_02.pixels[index + 3] = img_01.pixels[index + 3];
+        }
     }
-  }
-  //img.updatePixels();
+
+    img_01.updatePixels();
+    img_02.updatePixels();
 }
+
+
+
+
+
+
+
+
+
+
+
