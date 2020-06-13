@@ -13,8 +13,6 @@ var widthI = 550;
 var hist = new Array(256);
 
 function preload() {
- // img = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"); // Load the image
-
     img_01 = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png");
     img_02 = loadImage("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png");
 }
@@ -41,15 +39,8 @@ function draw() {
 };
 
 function drawLienzo01(){
-
     lienzo01.image(img_02, 0, 0);
-    
-
 };
-
-
-
-
 
 
 //Calcula los valores del histograma.
@@ -325,6 +316,7 @@ function regresar()
 
     img_01.updatePixels();
     img_02.updatePixels();
+
 }
 
 

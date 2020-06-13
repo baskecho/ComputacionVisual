@@ -20,7 +20,7 @@ function setup() {
 
     var myCanvas = createCanvas(1100, 550);
     myCanvas.parent('escala_grices_videos');    
-    background(255);0
+    background(255);
 }
 
 function draw(){
