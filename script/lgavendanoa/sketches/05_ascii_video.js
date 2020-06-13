@@ -11,8 +11,10 @@ let intensity = 1;
 let lienzo01;
 let lienzo02;
 //let letters = "@&$o%#*+=-':. .";
-let letters = ". $%, . $ #$, .,% & & , . ";
-//let letters = ".   .  .   .  .   ;:&         . . .  ";
+let letters = "$%&/,.-{}+*_:; -. ";
+//let letters = "$%&/,.-{}+*_:; -. %$%.,. +¨";
+//let letters = ". $%, . $ #$, .,% & & , . ";
+//let letters = "#:;&., =qwddf m n m ., . *+.,: ";
 
  
 // array to hold characters for pixel replacement
