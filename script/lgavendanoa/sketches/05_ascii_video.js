@@ -10,8 +10,8 @@ let repaint = 0;
 let intensity = 1;
 let lienzo01;
 let lienzo02;
-let letters = "@&$o%#*+=-':. .";
-let letters0 = "                                             ";
+//let letters = "@&$o%#*+=-':. .";
+let letters = ". $%, . $ #$, .,% & & , . ";
 //let letters = ".   .  .   .  .   ;:&         . . .  ";
 
  
